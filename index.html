@@ -119,7 +119,10 @@
         </div>
         <script type="text/javascript">
             function doHighlight() {
-                CodeMirror.runMode(document.getElementById("page").innerHTML, "htmlmixed",
+                CodeMirror.runMode("<!DOCTYPE html>\n<html id=\"page\">"
+                                        + document.getElementById("page").innerHTML
+                                        +"</html>",
+                                        "htmlmixed",
                      document.getElementById("whole-page"));
             }
         </script>
