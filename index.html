@@ -118,7 +118,8 @@
             <pre id="whole-page" class="cm-s-default"></pre>
         </div>
         <script type="text/javascript">
-            CodeMirror.runMode(document.getElementById("page").value, "htmlmixed",
+            function doHighlight() {
+                CodeMirror.runMode(document.getElementById("page").value, "htmlmixed",
                      document.getElementById("whole-page"));
             }
         </script>
