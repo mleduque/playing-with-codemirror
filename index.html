@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+
+        <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.2.0/codemirror.js"></script>
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.2.0/codemirror.css">
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.2.0/theme/solarized.css">
+        
+        <!--SQL highlight -->
+        <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.2.0/mode/sql/sql.js"></script>
+
+        <!-- HTML mixed highlight -->
+        <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.2.0/mode/xml/xml.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.2.0/mode/htmlmixed/htmlmixed.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.2.0/mode/javascript/javascript.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.2.0/mode/css/css.js"></script>
+
+        <!-- completion general -->
+        <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.2.0/addon/hint/show-hint.js"></script>
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.2.0/addon/hint/show-hint.css">
+
+        <!-- completion for SQL -->
+        <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.2.0/addon/hint/sql-hint.js"></script>
+
+        <!-- completion for html -->
+        <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.2.0/addon/hint/html-hint.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.2.0/addon/hint/xml-hint.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.2.0/addon/hint/javascript-hint.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.2.0/addon/hint/css-hint.js"></script>
+
+        <!-- close and match -->
+        <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.2.0/addon/edit/closebrackets.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.2.0/addon/edit/closetag.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.2.0/addon/edit/matchbrackets.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.2.0/addon/fold/xml-fold.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.2.0/addon/edit/matchtags.js"></script>
+
+        <!--  comment folding -->
+        <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.2.0/addon/fold/comment-fold.js"></script>
+
+        <title>Editor</title>
+    </head>
+    <body>
+        <p>SQL Editor</p>
+        <p>Type in some SQL:</p>
+        <div>
+            <textarea id="code-sql"></textarea>
+        </div>
+        <script>
+        CodeMirror.commands.autocompleteSql = function(cm) {
+            cm.showHint({hint: CodeMirror.hint.sql});
+        }
+        var editor = CodeMirror.fromTextArea(document.getElementById("code-sql"), {
+            lineNumbers: true,
+            mode: "text/x-sql",
+            theme: "solarized dark",
+            extraKeys: {"Ctrl-Space": "autocompleteSql"}
+            });
+        </script>
+        
+        <p>XML Editor</p>
+        <p>Type in some XML:</p>
+        <div>
+            <textarea id="code-html">
+<html>
+  <head>
+    <script type="text/javascript">
+    var demo = {toto="qshhjdsf"};var dd={{}};
+    
+    </script>
+    <style>
+        .toto {
+          background-color:black;
+        }
+    
+    </style>
+  </head>
+  <body>
+    <div class="toto">
+      
+    </div>
+  </body>
+</html>
+            </textarea>
+        </div>
+        <script>
+        CodeMirror.commands.autocompleteHtml = function(cm) {
+            var doc = cm.getDoc();
+            var POS = doc.getCursor();
+            var mode = CodeMirror.innerMode(cm.getMode(), cm.getTokenAt(POS).state).mode.name;
+            console.info("editor mode: %s", mode)
+
+            if (mode == 'xml') {
+                cm.showHint({hint: CodeMirror.hint.html});
+            } else if (mode == 'javascript') {
+                cm.showHint(cm, CodeMirror.hint.javascript);
+            } else if (mode == 'css') {
+                cm.showHint(cm, CodeMirror.hint.css);
+            }
+        }
+        var editor = CodeMirror.fromTextArea(document.getElementById("code-html"), {
+            lineNumbers: true,
+            mode: "htmlmixed",
+             theme: "default",
+             extraKeys: {"Ctrl-Space": "autocompleteHtml", "Ctrl-J": ""},
+             autoCloseBrackets: true,
+             matchBrackets: true,
+             matchTags: {bothTags: true},
+             autoCloseTags: true
+            });
+        </script>
+    </body>
+</html>
