@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html id="page">
     <head>
         <meta charset="UTF-8">
 
@@ -38,6 +38,9 @@
 
         <!--  comment folding -->
         <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.2.0/addon/fold/comment-fold.js"></script>
+
+        <!-- non-editable zone highlighting -->
+        <script src="./cdnjs.cloudflare.com/ajax/libs/codemirror/4.2.0/addon/runmode/runmode.js"></script>
 
         <title>Editor</title>
     </head>
@@ -109,6 +112,15 @@
              matchTags: {bothTags: true},
              autoCloseTags: true
             });
+        </script>
+        <div>
+            <button onclick="doHighlight();">Show/refresh page source</button>
+            <pre id="whole-page" class="cm-s-default"></pre>
+        </div>
+        <script type="text/javascript">
+            CodeMirror.runMode(document.getElementById("page").value, "htmlmixed",
+                     document.getElementById("whole-page"));
+            }
         </script>
     </body>
 </html>
